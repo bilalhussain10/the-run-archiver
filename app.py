@@ -108,27 +108,99 @@ QUOTES = [
     '"Only a man who knows what it is like to be defeated can reach down to the bottom of his soul and come up with the extra ounce of power it takes to win when the match is even." - Muhammad Ali',
 ]
 
-# ---------- Page config & style ----------
+# ---------- Page config & style (matches the original Tkinter look) ----------
 st.set_page_config(page_title="Run Logger", page_icon="🏃", layout="centered")
 
 st.markdown(
     """
     <style>
-    .stApp { background-color: ivory; }
+    :root {
+        --ivory: #FFFFF0;
+        --maroon: #800000;
+        --navy: #000080;
+        --darkblue: #00008B;
+        --magenta: #FF00FF;
+        --font-quote: "Times New Roman", Times, serif;
+        --font-date: Constantia, Georgia, serif;
+        --font-label: Cambria, Georgia, serif;
+        --font-entry: Bahnschrift, "Segoe UI", Verdana, sans-serif;
+        --font-button: Impact, "Arial Narrow Bold", "Haettenschweiler", sans-serif;
+    }
+
+    .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"] {
+        background-color: var(--ivory) !important;
+    }
+
+    /* Quote */
     .quote-box {
-        color: maroon;
+        color: var(--maroon);
+        font-family: var(--font-quote);
         font-style: italic;
         font-weight: bold;
-        font-size: 20px;
+        font-size: 22px;
         text-align: center;
-        padding: 10px 20px;
+        padding: 20px 10px 5px 10px;
     }
+
+    /* Date */
     .date-box {
         color: black;
+        font-family: var(--font-date);
         font-weight: bold;
         font-size: 20px;
         text-align: center;
-        padding-bottom: 10px;
+        padding-bottom: 15px;
+    }
+
+    /* Field labels (Run Type, Distance, etc.) */
+    [data-testid="stWidgetLabel"] p {
+        font-family: var(--font-label) !important;
+        color: black !important;
+        font-size: 18px !important;
+    }
+
+    /* All text inputs: ivory text, Bahnschrift, centered, thick black border */
+    div[data-testid="stTextInput"] input {
+        font-family: var(--font-entry) !important;
+        color: var(--ivory) !important;
+        text-align: center !important;
+        border: 3px solid black !important;
+        border-radius: 4px !important;
+    }
+
+    /* Alternate maroon / dark-blue entry backgrounds, same pattern as the original */
+    .st-key-type_field input,
+    .st-key-pace_field input,
+    .st-key-success_field input {
+        background-color: var(--maroon) !important;
+    }
+    .st-key-dist_field input,
+    .st-key-feel_field input {
+        background-color: var(--darkblue) !important;
+    }
+
+    /* LOG RUN button */
+    .stFormSubmitButton button {
+        font-family: var(--font-button) !important;
+        font-size: 20px !important;
+        color: var(--ivory) !important;
+        background-color: var(--navy) !important;
+        border: none !important;
+        border-radius: 4px !important;
+        width: 100%;
+        padding: 10px 0 !important;
+    }
+    .stFormSubmitButton button:hover {
+        background-color: #000060 !important;
+        color: var(--ivory) !important;
+    }
+
+    /* Success/Failure/Invalid response banners styled like the old magenta 'response' label */
+    .response-box {
+        font-family: var(--font-button);
+        font-size: 20px;
+        text-align: center;
+        padding: 10px;
     }
     </style>
     """,
@@ -144,8 +216,6 @@ st.markdown(f"<div class='quote-box'>{st.session_state.quote}</div>", unsafe_all
 today = datetime.datetime.now().strftime("%a, %d %b, %y")
 st.markdown(f"<div class='date-box'>{today}</div>", unsafe_allow_html=True)
 
-st.title("🏃 Run Logger")
-
 if USING_TURSO:
     st.caption("☁️ Connected to permanent cloud storage (Turso)")
 else:
@@ -155,13 +225,18 @@ else:
 with st.form("run_form", clear_on_submit=True):
     col1, col2 = st.columns(2)
     with col1:
-        run_type = st.text_input("Run Type")
-        distance = st.text_input("Distance in Meters")
+        with st.container(key="type_field"):
+            run_type = st.text_input("Run Type:")
+        with st.container(key="dist_field"):
+            distance = st.text_input("Distance in Meters:")
     with col2:
-        pace = st.text_input("Time & Pace")
-        feel = st.text_input("Experience & Conditions")
+        with st.container(key="pace_field"):
+            pace = st.text_input("Time & Pace:")
+        with st.container(key="feel_field"):
+            feel = st.text_input("Experience & Conditions:")
 
-    success_input = st.text_input("Was it a Success? yes OR no")
+    with st.container(key="success_field"):
+        success_input = st.text_input("Was it A Success? yes OR no")
 
     submitted = st.form_submit_button("LOG RUN")
 
@@ -172,20 +247,32 @@ with st.form("run_form", clear_on_submit=True):
             answer = success_input.strip().lower()
             if answer == "yes":
                 result = "Success"
-                st.success("CONGRATULATIONS!")
+                st.markdown(
+                    "<div class='response-box' style='color:blue;'>CONGRATULATIONS!</div>",
+                    unsafe_allow_html=True,
+                )
             elif answer == "no":
                 result = "Failure"
-                st.error("Hard Luck, kill it next time")
+                st.markdown(
+                    "<div class='response-box' style='color:red;'>Hard Luck, kill it next time</div>",
+                    unsafe_allow_html=True,
+                )
             else:
                 result = "Unknown"
                 if success_input.strip():
-                    st.warning("Invalid Response")
+                    st.markdown(
+                        "<div class='response-box' style='color:black;'>Invalid Response</div>",
+                        unsafe_allow_html=True,
+                    )
 
             insert_run(today, run_type.strip(), distance.strip(), pace.strip(), feel.strip(), result)
             st.rerun()
 
 # ---------- History ----------
-st.header("History")
+st.markdown(
+    "<h2 style='font-family: Cambria, Georgia, serif; color: black; text-align:center;'>History</h2>",
+    unsafe_allow_html=True,
+)
 
 runs = fetch_runs()
 
@@ -195,7 +282,13 @@ else:
     for run_id, run_date, run_type, distance, pace, feel, result in runs:
         c1, c2 = st.columns([9, 1])
         with c1:
-            st.write(f"**{run_date}** | {run_type} | {distance} m | {pace} | {feel} | {result}")
+            st.markdown(
+                f"<div style='font-family: Cambria, Georgia, serif; color: darkblue; "
+                f"font-size:16px; padding: 6px 0;'>"
+                f"<b>{run_date}</b> | {run_type} | {distance} m | {pace} | {feel} | {result}"
+                f"</div>",
+                unsafe_allow_html=True,
+            )
         with c2:
             if st.button("🗑", key=f"del_{run_id}"):
                 delete_run(run_id)
