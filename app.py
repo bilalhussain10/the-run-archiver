@@ -109,7 +109,7 @@ QUOTES = [
 ]
 
 # ---------- Page config & style (matches the original Tkinter look) ----------
-st.set_page_config(page_title="Run Logger", page_icon="🏃", layout="centered")
+st.set_page_config(page_title="The Run Archiver", layout="centered")
 
 st.markdown(
     """
@@ -188,7 +188,8 @@ st.markdown(
         border: none !important;
         border-radius: 4px !important;
         width: 100%;
-        padding: 10px 0 !important;
+        padding: 10px 0 !important; 
+        config: center
     }
     .stFormSubmitButton button:hover {
         background-color: #000060 !important;
@@ -216,10 +217,7 @@ st.markdown(f"<div class='quote-box'>{st.session_state.quote}</div>", unsafe_all
 today = datetime.datetime.now().strftime("%a, %d %b, %y")
 st.markdown(f"<div class='date-box'>{today}</div>", unsafe_allow_html=True)
 
-if USING_TURSO:
-    st.caption("☁️ Connected to permanent cloud storage (Turso)")
-else:
-    st.caption("💾 Using local SQLite — data will NOT persist on most cloud hosts. See README.")
+
 
 # ---------- Form ----------
 with st.form("run_form", clear_on_submit=True):
