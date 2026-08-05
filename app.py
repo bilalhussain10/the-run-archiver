@@ -179,7 +179,7 @@ st.markdown(
         background-color: var(--darkblue) !important;
     }
 
-    /* LOG RUN button: centered and Impact font */
+    /* LOG RUN button: centered, Impact font */
     .stFormSubmitButton button {
         font-family: var(--font-button) !important;
         font-size: 20px !important;
@@ -187,7 +187,7 @@ st.markdown(
         background-color: var(--navy) !important;
         border: none !important;
         border-radius: 4px !important;
-        width: 40% !important;
+        width: 200% !important;
         padding: 10px 0 !important; 
         display: block !important;
         margin: 0 auto !important;
