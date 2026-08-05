@@ -277,7 +277,7 @@ st.markdown(
 runs = fetch_runs()
 
 if not runs:
-    st.info("No runs logged yet. Add one above!")
+    st.info("")
 else:
     for run_id, run_date, run_type, distance, pace, feel, result in runs:
         c1, c2 = st.columns([9, 1])
