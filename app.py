@@ -179,19 +179,28 @@ st.markdown(
         background-color: var(--darkblue) !important;
     }
 
-    /* LOG RUN button: ivory text, Bahnschrift, centered,  */
-    .stFormSubmitButton button {
-        font-family: var(--font-button) !important;
-        font-size: 20px !important;
-        color: var(--ivory) !important;
-        background-color: var(--navy) !important;
-        border: none !important;
-        border-radius: 4px !important;
-        width: 200% !important;
-        padding: 10px 0 !important; 
-        display: block !important;
-        margin: 0 auto !important;
-        text-align: center !important;
+    /* Center the submit button container */
+div.stFormSubmitButton {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+/* Ensure the button element itself uses proper width and styling */
+.stFormSubmitButton button {
+    font-family: var(--font-button) !important;
+    font-size: 20px !important;
+    color: var(--ivory) !important;
+    background-color: var(--navy) !important;
+    border: none !important;
+    border-radius: 4px !important;
+    padding: 10px 24px !important; /* Generous padding for a clean button size */
+    width: auto !important;        /* Prevents weird width inheritance */
+    min-width: 180px !important;   /* Sets a nice base width */
+    margin: 0 auto !important;
+    text-align: center !important;
+}
     }
     .stFormSubmitButton button:hover {
         background-color: #000060 !important;
