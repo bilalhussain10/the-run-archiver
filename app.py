@@ -179,7 +179,7 @@ st.markdown(
         background-color: var(--darkblue) !important;
     }
 
-    /* LOG RUN button */
+    /* LOG RUN button: centered and Impact font */
     .stFormSubmitButton button {
         font-family: var(--font-button) !important;
         font-size: 20px !important;
@@ -187,9 +187,11 @@ st.markdown(
         background-color: var(--navy) !important;
         border: none !important;
         border-radius: 4px !important;
-        width: 100%;
+        width: 40% !important;
         padding: 10px 0 !important; 
-        config: center
+        display: block !important;
+        margin: 0 auto !important;
+        text-align: center !important;
     }
     .stFormSubmitButton button:hover {
         background-color: #000060 !important;
@@ -281,8 +283,8 @@ else:
         c1, c2 = st.columns([9, 1])
         with c1:
             st.markdown(
-                f"<div style='font-family: Cambria, Georgia, serif; color: darkblue; "
-                f"font-size:16px; padding: 6px 0;'>"
+                f"<div style='font-family: Cambria, Georgia, serif; color: var(--ivory); background-color: var(--maroon); "
+                f"font-size:16px; padding: 8px 10px; border-radius:6px;'>"
                 f"<b>{run_date}</b> | {run_type} | {distance} m | {pace} | {feel} | {result}"
                 f"</div>",
                 unsafe_allow_html=True,
