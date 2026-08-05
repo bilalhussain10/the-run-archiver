@@ -159,7 +159,7 @@ st.markdown(
         font-size: 18px !important;
     }
 
-    /* All text inputs: ivory text, Bahnschrift, centered, thick black border */
+    /* All text inputs: ivory text, Bahnschrift, centered, */
     div[data-testid="stTextInput"] input {
         font-family: var(--font-entry) !important;
         color: var(--ivory) !important;
@@ -179,7 +179,7 @@ st.markdown(
         background-color: var(--darkblue) !important;
     }
 
-    /* LOG RUN button: centered, Impact font */
+    /* LOG RUN button: ivory text, Bahnschrift, centered,  */
     .stFormSubmitButton button {
         font-family: var(--font-button) !important;
         font-size: 20px !important;
@@ -236,7 +236,7 @@ with st.form("run_form", clear_on_submit=True):
             feel = st.text_input("Experience & Conditions:")
 
     with st.container(key="success_field"):
-        success_input = st.text_input("Was it A Success? yes OR no")
+        success_input = st.text_input("Was it A Success? Yes or No")
 
     submitted = st.form_submit_button("LOG RUN")
 
@@ -285,7 +285,7 @@ else:
             st.markdown(
                 f"<div style='font-family: Cambria, Georgia, serif; color: var(--ivory); background-color: var(--maroon); "
                 f"font-size:16px; padding: 8px 10px; border-radius:6px;'>"
-                f"<b>{run_date}</b> | {run_type} | {distance} m | {pace} | {feel} | {result}"
+                f"<b>{run_date}</b> | {run_type} | {distance} m | {pace} | {feel} | {result} /n"
                 f"</div>",
                 unsafe_allow_html=True,
             )
